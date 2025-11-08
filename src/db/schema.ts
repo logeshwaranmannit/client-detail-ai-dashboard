@@ -1,53 +1,68 @@
-import { sqliteTable, integer, text, real } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, integer, text } from 'drizzle-orm/sqlite-core';
 
-export const clients = sqliteTable('clients', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
-  name: text('name').notNull(),
-  industry: text('industry').notNull(),
-  status: text('status').notNull(),
-  aiSummary: text('ai_summary').notNull(),
-  reconciliationProgress: integer('reconciliation_progress').notNull(),
-  exceptionCount: integer('exception_count').notNull(),
-  confidenceScore: integer('confidence_score').notNull(),
-  dataFreshness: text('data_freshness').notNull(),
-  signOffReadiness: text('sign_off_readiness').notNull(),
-  createdAt: text('created_at').notNull(),
+
+
+// Auth tables for better-auth
+export const user = sqliteTable("user", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  emailVerified: integer("email_verified", { mode: "boolean" })
+    .$defaultFn(() => false)
+    .notNull(),
+  image: text("image"),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .$defaultFn(() => new Date())
+    .notNull(),
 });
 
-export const reconciliations = sqliteTable('reconciliations', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
-  clientId: integer('client_id').notNull().references(() => clients.id),
-  accountName: text('account_name').notNull(),
-  amount: real('amount').notNull(),
-  status: text('status').notNull(),
-  lastUpdated: text('last_updated').notNull(),
+export const session = sqliteTable("session", {
+  id: text("id").primaryKey(),
+  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+  token: text("token").notNull().unique(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
 });
 
-export const journals = sqliteTable('journals', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
-  clientId: integer('client_id').notNull().references(() => clients.id),
-  entryNumber: text('entry_number').notNull(),
-  description: text('description').notNull(),
-  debit: real('debit').notNull(),
-  credit: real('credit').notNull(),
-  date: text('date').notNull(),
+export const account = sqliteTable("account", {
+  id: text("id").primaryKey(),
+  accountId: text("account_id").notNull(),
+  providerId: text("provider_id").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  accessToken: text("access_token"),
+  refreshToken: text("refresh_token"),
+  idToken: text("id_token"),
+  accessTokenExpiresAt: integer("access_token_expires_at", {
+    mode: "timestamp",
+  }),
+  refreshTokenExpiresAt: integer("refresh_token_expires_at", {
+    mode: "timestamp",
+  }),
+  scope: text("scope"),
+  password: text("password"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 });
 
-export const exceptions = sqliteTable('exceptions', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
-  clientId: integer('client_id').notNull().references(() => clients.id),
-  type: text('type').notNull(),
-  description: text('description').notNull(),
-  severity: text('severity').notNull(),
-  status: text('status').notNull(),
-  createdAt: text('created_at').notNull(),
-});
-
-export const reports = sqliteTable('reports', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
-  clientId: integer('client_id').notNull().references(() => clients.id),
-  reportName: text('report_name').notNull(),
-  reportType: text('report_type').notNull(),
-  generatedAt: text('generated_at').notNull(),
-  fileUrl: text('file_url').notNull(),
+export const verification = sqliteTable("verification", {
+  id: text("id").primaryKey(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
+  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date(),
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date(),
+  ),
 });

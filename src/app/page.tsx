@@ -1,158 +1,79 @@
-"use client"
-
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Building2, TrendingUp, Activity, ArrowRight } from "lucide-react";
 
 export default function Home() {
-  const clients = [
-    {
-      id: 1,
-      name: "Acme Corporation",
-      industry: "Manufacturing",
-      progress: 94,
-      exceptions: 2,
-      status: "Ready",
-    },
-    {
-      id: 2,
-      name: "TechStart Inc",
-      industry: "Technology",
-      progress: 78,
-      exceptions: 5,
-      status: "Pending Review",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <div className="max-w-6xl mx-auto px-8 py-16">
-        {/* Hero Section */}
-        <div className="text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            <Activity className="h-4 w-4" />
-            AI-Powered Accounting Platform
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-zinc-50 via-white to-zinc-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
+      <main className="flex w-full max-w-4xl flex-col items-center gap-12 px-8 py-16 text-center">
+        <div className="flex flex-col items-center gap-6">
+          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-xl">
+            <svg
+              className="h-12 w-12 text-primary-foreground"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+              />
+            </svg>
           </div>
-          <h1 className="text-5xl font-bold tracking-tight">
-            Client Management Dashboard
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Deep dive into client reconciliations, journals, exceptions, and reports with AI-powered insights
-          </p>
+          
+          <div className="space-y-3">
+            <h1 className="text-5xl font-semibold tracking-tight text-foreground">
+              AI Accounting Platform
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl">
+              Modern accounting powered by artificial intelligence for CPAs and financial professionals
+            </p>
+          </div>
         </div>
 
-        {/* Client Cards */}
-        <div className="grid gap-6 md:grid-cols-2 mb-12">
-          {clients.map((client) => (
-            <Link key={client.id} href={`/clients/${client.id}`}>
-              <Card className="hover:shadow-lg transition-shadow border-2 hover:border-primary/50 cursor-pointer h-full">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Building2 className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl">{client.name}</CardTitle>
-                        <CardDescription>{client.industry}</CardDescription>
-                      </div>
-                    </div>
-                    <ArrowRight className="h-5 w-5 text-muted-foreground" />
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Reconciliation Progress</span>
-                    <span className="font-semibold">{client.progress}%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div
-                      className="bg-primary rounded-full h-2 transition-all"
-                      style={{ width: `${client.progress}%` }}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between pt-2">
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">
-                        {client.exceptions} {client.exceptions === 1 ? 'exception' : 'exceptions'}
-                      </span>
-                    </div>
-                    <Badge
-                      variant="outline"
-                      className={
-                        client.status === "Ready"
-                          ? "bg-green-500/10 text-green-700 dark:text-green-400"
-                          : "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400"
-                      }
-                    >
-                      {client.status}
-                    </Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+          <Button asChild size="lg" className="h-12 text-base font-medium flex-1">
+            <Link href="/login">Sign In</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="h-12 text-base font-medium flex-1">
+            <Link href="/register">Create Account</Link>
+          </Button>
         </div>
 
-        {/* Features Section */}
-        <Card className="border-2">
-          <CardHeader>
-            <CardTitle>Platform Features</CardTitle>
-            <CardDescription>What you'll find in each client detail view</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="flex gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <Activity className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">AI-Powered Insights</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Get intelligent summaries and recommendations for each client
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <TrendingUp className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Real-time Analytics</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Track reconciliation progress, confidence scores, and data freshness
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <Building2 className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Comprehensive Data</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Access reconciliations, journals, exceptions, and reports in one place
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <Activity className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Conversational AI</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Chat with an AI assistant focused on each client's data
-                  </p>
-                </div>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 w-full">
+          <div className="flex flex-col items-center gap-3 p-6 rounded-lg bg-card border border-border">
+            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <svg className="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+            <h3 className="font-semibold text-foreground">AI-Powered</h3>
+            <p className="text-sm text-muted-foreground">Intelligent automation for accounting workflows</p>
+          </div>
+
+          <div className="flex flex-col items-center gap-3 p-6 rounded-lg bg-card border border-border">
+            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <svg className="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 className="font-semibold text-foreground">Secure</h3>
+            <p className="text-sm text-muted-foreground">Enterprise-grade security for your data</p>
+          </div>
+
+          <div className="flex flex-col items-center gap-3 p-6 rounded-lg bg-card border border-border">
+            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <svg className="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h3 className="font-semibold text-foreground">Analytics</h3>
+            <p className="text-sm text-muted-foreground">Real-time insights and reporting</p>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
